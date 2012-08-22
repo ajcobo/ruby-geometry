@@ -66,6 +66,17 @@ module Geometry
       Point.new(x, y)
     end
 
+    # extends the segment in both directions by a certain length
+    def extend_by(extend_length)
+      point3x = point1.x + ((point2.x - point1.x) / length) * extend_length
+      point3y = point1.y + ((point2.y - point1.y) / length) * extend_length
+
+      point4x = point2.x + ((point2.x - point1.x) / length) * extend_length
+      point4y = point2.y + ((point2.y - point1.y) / length) * extend_length
+
+      Geometry::Segment.new_by_arrays([point3x, point3y], [point4x, point4y])
+    end
+
     def length      
       Geometry.distance(point1, point2)
     end
