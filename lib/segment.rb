@@ -67,25 +67,23 @@ module Geometry
     end
 
     # extends the segment in both directions by a certain length
-    def extend_left(extend_length)
-      left_point = leftmost_endpoint
-      right_point = rightmost_endpoint
+    def extend(extend_length)
+      x1 = point1.x
+      y1 = point1.y
+      x2 = point2.x
+      y2 = point2.y
 
-      x1 = left_point.x + ((left_point.x - right_point.x) / length) * extend_length
-      y1 = left_point.y + ((left_point.y - right_point.y) / length) * extend_length
+      dx = (x2-x1)/Math.sqrt((x2-x1)**2 + (y2-y1)**2)
+      dy = (y2-y1)/Math.sqrt((x2-x1)**2 + (y2-y1)**2)
 
-      Geometry::Segment.new_by_arrays([right_point.x, right_point.y], [x1, y1])
+      x3 = x2 + (dx * extend_length)
+      y3 = y2 + (dy * extend_length)
+      x4 = x1 - (dx * extend_length)
+      y4 = y1 - (dy * extend_length)
+
+      Geometry::Segment.new_by_arrays([x4, y4], [x3, y3])
     end
 
-    def extend_down(extend_length)
-      top_point = topmost_endpoint
-      bottom_point = bottommost_endpoint
-
-      x1 = bottom_point.x + ((top_point.x - bottom_point.x) / length) * extend_length
-      y1 = bottom_point.y + ((top_point.y - bottom_point.y) / length) * extend_length
-
-      Geometry::Segment.new_by_arrays([top_point.x, top_point.y], [x1, y1])
-    end
 
     def length      
       Geometry.distance(point1, point2)
