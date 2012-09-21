@@ -66,30 +66,30 @@ module Geometry
       Point.new(x, y)
     end
 
-    def parallel_lines(segment, distance)
-      dx = segment.point1.x - segment.point2.x
-      dy = segment.point1.y - segment.point2.y
+    def parallel_lines(distance)
+      dx = point1.x - point2.x
+      dy = point1.y - point2.y
 
       dist = Math.sqrt(dx*dx + dy*dy).to_d
       dx /= dist
       dy /= dist
 
-      x1 = segment.point1.x + (distance*dy)
-      y1 = segment.point1.y - (distance*dx)
+      x1 = point1.x + (distance*dy)
+      y1 = point1.y - (distance*dx)
 
-      x2 = segment.point2.x + (distance*dy)
-      y2 = segment.point2.y - (distance*dx)
+      x2 = point2.x + (distance*dy)
+      y2 = point2.y - (distance*dx)
 
-      x3 = segment.point1.x - (distance*dy)
-      y3 = segment.point1.y + (distance*dx)
+      x3 = point1.x - (distance*dy)
+      y3 = point1.y + (distance*dx)
 
-      x4 = segment.point2.x - (distance*dy)
-      y4 = segment.point2.y + (distance*dx)
+      x4 = point2.x - (distance*dy)
+      y4 = point2.y + (distance*dx)
 
       parallels = []
 
-      parallels << Geometry::Segment.new_by_arrays([x1, y1], [x2, y2])
-      parallels << Geometry::Segment.new_by_arrays([x3, y3], [x4, y4])
+      parallels << Geometry::new_by_arrays([x1, y1], [x2, y2])
+      parallels << Geometry::new_by_arrays([x3, y3], [x4, y4])
 
       parallels
     end
