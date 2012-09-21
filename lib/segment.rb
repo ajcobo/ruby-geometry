@@ -66,24 +66,33 @@ module Geometry
       Point.new(x, y)
     end
 
-    # extends the segment in both directions by a certain length
-    def extend(extend_length)
-      x1 = point1.x
-      y1 = point1.y
-      x2 = point2.x
-      y2 = point2.y
+    def parallel_lines(segment, distance)
+      dx = segment.point1.x - segment.point2.x
+      dy = segment.point1.y - segment.point2.y
 
-      dx = (x2-x1)/Math.sqrt((x2-x1)**2 + (y2-y1)**2)
-      dy = (y2-y1)/Math.sqrt((x2-x1)**2 + (y2-y1)**2)
+      dist = Math.sqrt(dx*dx + dy*dy).to_d
+      dx /= dist
+      dy /= dist
 
-      x3 = x2 + (dx * extend_length)
-      y3 = y2 + (dy * extend_length)
-      x4 = x1 - (dx * extend_length)
-      y4 = y1 - (dy * extend_length)
+      x1 = segment.point1.x + (distance*dy)
+      y1 = segment.point1.y - (distance*dx)
 
-      Geometry::Segment.new_by_arrays([x4, y4], [x3, y3])
+      x2 = segment.point2.x + (distance*dy)
+      y2 = segment.point2.y - (distance*dx)
+
+      x3 = segment.point1.x - (distance*dy)
+      y3 = segment.point1.y + (distance*dx)
+
+      x4 = segment.point2.x - (distance*dy)
+      y4 = segment.point2.y + (distance*dx)
+
+      parallels = []
+
+      parallels << Geometry::Segment.new_by_arrays([x1, y1], [x2, y2])
+      parallels << Geometry::Segment.new_by_arrays([x3, y3], [x4, y4])
+
+      parallels
     end
-
 
     def length      
       Geometry.distance(point1, point2)
